@@ -247,11 +247,13 @@ function renderScores() {
 
 function adjustScore(i, dir) {
   const cell = currentCell || lastCell;
-  if (!cell) return;
+  if (!cell) { alert('Please open a question first.'); return; }
   const parts = cell.split('-');
-  const pts = questions[parts[0]][parts[1]].pts;
+  const col = parseInt(parts[0]);
+  const row = parseInt(parts[1]);
+  const pts = questions[col][row].pts;
   teams[i].score += dir * pts;
-  document.getElementById('score-' + i).textContent = teams[i].score;
+  renderScores();
 }
 
 document.getElementById('homeTeamInput').addEventListener('keydown', function(e) {
