@@ -152,6 +152,7 @@ const cats = ["Normal Distributions", "Binomial Distributions", "Normal Approxim
 let used = {};
 let teams = [];
 let currentCell = null;
+let lastCell = null;
 
 function homeAddTeam() {
   const input = document.getElementById('homeTeamInput');
@@ -207,6 +208,7 @@ function buildGrid() {
       if (!used[key]) {
         cell.onclick = function() {
           currentCell = key;
+          lastCell = key;
           document.getElementById('mPts').textContent = '$' + q.pts;
           document.getElementById('mCat').textContent = cats[col];
           document.getElementById('mStem').textContent = q.stem;
@@ -244,8 +246,9 @@ function renderScores() {
 }
 
 function adjustScore(i, dir) {
-  if (!currentCell) return;
-  const parts = currentCell.split('-');
+  const cell = currentCell || lastCell;
+  if (!cell) return;
+  const parts = cell.split('-');
   const pts = questions[parts[0]][parts[1]].pts;
   teams[i].score += dir * pts;
   document.getElementById('score-' + i).textContent = teams[i].score;
